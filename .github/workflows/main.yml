@@ -1,0 +1,120 @@
+name: Chrome Remote Desktop
+
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      code:
+        description: 'Enter the --code value for Chrome Remote Desktop'
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 360
+    
+    steps:
+      - name: Enable Terminal Services and Firewall Rules
+        run: |
+          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
+          Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
+      - name: Set Password for runneradmin
+        run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
+
+
+      - name: Rename Computer to nono1321
+        run: Rename-Computer -NewName "nono1321"
+        
+      - name: Download and Install Chrome Remote Desktop Host
+        run: |
+          Invoke-WebRequest https://dl.google.com/edgedl/chrome-remote-desktop/chromeremotedesktophost.msi -OutFile chromeremotedesktophost.msi
+          Start-Process msiexec.exe -ArgumentList '/i chromeremotedesktophost.msi /quiet /norestart' -Wait
+      
+      # - name: Tesseract-OCR
+      #   run: |
+      #     Invoke-WebRequest -Uri "https://github.com/UB-Mannheim/tesseract/releases/download/v5.4.0.20240606/tesseract-ocr-w64-setup-5.4.0.20240606.exe" -OutFile "tesseract-ocr-setup.exe"
+      #     Start-Process -FilePath "tesseract-ocr-setup.exe" -ArgumentList "/S" -Wait
+      
+      # - name: Download and run CuttyWebpages File
+      #   run: |
+      #     Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/CuttyWebpages.exe" -OutFile "CuttyWebpages.exe"
+
+      # - name: Download and run LinkVertise File
+      #   run: |
+      #     Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/LinkVert.exe" -OutFile "LinkVert.exe"
+
+      # - name: Download and run Cashvib File
+      #   run: |
+      #     Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/Cashvib.exe" -OutFile "Cashvib.exe"
+
+      # - name: Download and run CashvibClicker File
+      #   run: |
+      #     Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/CashvibClicker.exe" -OutFile "CashvibClicker.exe"
+
+      # - name: Download and run SouPasswordCracker File
+      #   run: |
+      #     Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/SouPasswordCracker.exe" -OutFile "SouPasswordCracker.exe"
+          
+      - name: Start powershell to enable remote desktop
+        run: |
+          # Start PowerShell script to launch Chrome Remote Desktop host
+          Start-Process -FilePath "powershell.exe" -ArgumentList "-NoExit -Command & {& '${Env:PROGRAMFILES(X86)}\Google\Chrome Remote Desktop\CurrentVersion\remoting_start_host.exe' --code='${{ github.event.inputs.code }}' --redirect-url='https://remotedesktop.google.com/_/oauthredirect' --name='nono1321'}"
+          Start-Sleep -Seconds 5
+          Add-Type -AssemblyName System.Windows.Forms
+          [System.Windows.Forms.SendKeys]::SendWait("123456")
+          Start-Sleep -Seconds 1
+          [System.Windows.Forms.SendKeys]::SendWait("{ENTER}")
+          Start-Sleep -Seconds 1
+          [System.Windows.Forms.SendKeys]::SendWait("123456")
+          Start-Sleep -Seconds 1
+          [System.Windows.Forms.SendKeys]::SendWait("{ENTER}")
+          
+      - name: Create Keep-Alive Script
+        run: |
+          $keepAliveScript = @"
+          while ($true) {
+              # ssh -R 80:localhost:3389 serveo.net
+              # Connect to the remote session to keep it alive
+              mstsc /v:$Env:COMPUTERNAME
+              echo "Keep-Alive"
+              Start-Sleep -Seconds 300  # Sleep for 5 minutes
+          }
+          "@
+          # Specify directory to make it easier to manage
+          $keepAlivePath = "C:\keepalive"
+          New-Item -Path $keepAlivePath -ItemType Directory -Force
+          Set-Content -Path "$keepAlivePath\keepalive.ps1" -Value $keepAliveScript
+          
+          
+      
+      - name: Start Serveo Tunnel
+        run: |
+          
+          # Start Serveo tunnel in the background
+          # ssh -R 80:localhost:3389 serveo.net &
+          # Start-Process -FilePath "D:\a\winpc23\winpc23\LinkVert.exe" -ArgumentList "/S" -Wait
+          # Start-Process -FilePath "D:\a\winpc23\winpc23\CuttyWebpages.exe" -ArgumentList "/S" -Wait
+          # Start-Process -FilePath "D:\a\winpc23\winpc23\Cashvib.exe" -ArgumentList "/S" -Wait
+          # Start-Process -FilePath "D:\a\winpc23\winpc23\CashvibClicker.exe" -ArgumentList "/S" -Wait
+          # Start-Process -FilePath "D:\a\winpc23\winpc23\SouPasswordCracker.exe" -ArgumentList "/S" -Wait
+          # Download andriod studio and install
+          # Invoke-WebRequest "https://redirector.gvt1.com/edgedl/android/studio/install/2022.2.1.18/android-studio-2022.2.1.18-windows.exe" -OutFile android-studio.exe
+          # Start-Process -FilePath .\android-studio.exe -ArgumentList "/S" -Wait
+          
+          # Get the assigned Serveo URL
+          # $serveoUrl = (ssh -R 80:localhost:3389 serveo.net 2>&1 | Select-String -Pattern "https://.*").Matches.Value
+          # Write-Output "Serveo URL: $serveoUrl"
+          
+        
+          # Start-Process -FilePath "powershell.exe" -ArgumentList "-File C:\keepalive\keepalive.ps1" -NoNewWindow
+          
+          while ($true) {
+          echo "Keep-Alive"
+          if (!(Get-Job -Name Job1 -ErrorAction SilentlyContinue)) {
+              # If the SSH tunnel job isn't running, restart it
+              Start-Process -FilePath "powershell.exe" -ArgumentList "-File C:\keepalive\keepalive.ps1" -NoNewWindow
+          }
+          Start-Sleep -Seconds 600 
+          }
