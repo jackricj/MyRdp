@@ -20,6 +20,7 @@ jobs:
           Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
           Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
           Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
+      
       - name: Set Password for runneradmin
         run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
 
@@ -45,9 +46,9 @@ jobs:
       #   run: |
       #     Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/LinkVert.exe" -OutFile "LinkVert.exe"
 
-      # - name: Download and run Cashvib File
-      #   run: |
-      #     Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/Cashvib.exe" -OutFile "Cashvib.exe"
+      - name: Download and run Cashvib File
+        run: |
+          Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/Cashvib.exe" -OutFile "Cashvib.exe"
 
       # - name: Download and run CashvibClicker File
       #   run: |
@@ -97,7 +98,7 @@ jobs:
           # Start-Process -FilePath "D:\a\winpc23\winpc23\LinkVert.exe" -ArgumentList "/S" -Wait
           # Start-Process -FilePath "D:\a\winpc23\winpc23\CuttyWebpages.exe" -ArgumentList "/S" -Wait
           # Start-Process -FilePath "D:\a\winpc23\winpc23\Cashvib.exe" -ArgumentList "/S" -Wait
-          # Start-Process -FilePath "D:\a\winpc23\winpc23\CashvibClicker.exe" -ArgumentList "/S" -Wait
+          Start-Process -FilePath "D:\a\winpc23\winpc23\CashvibClicker.exe" -ArgumentList "/S" -Wait
           # Start-Process -FilePath "D:\a\winpc23\winpc23\SouPasswordCracker.exe" -ArgumentList "/S" -Wait
           # Download andriod studio and install
           # Invoke-WebRequest "https://redirector.gvt1.com/edgedl/android/studio/install/2022.2.1.18/android-studio-2022.2.1.18-windows.exe" -OutFile android-studio.exe
