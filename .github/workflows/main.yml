@@ -46,13 +46,13 @@ jobs:
       #   run: |
       #     Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/LinkVert.exe" -OutFile "LinkVert.exe"
 
-      - name: Download and run Cashvib File
-        run: |
-          Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/Cashvib.exe" -OutFile "Cashvib.exe"
-
-      # - name: Download and run CashvibClicker File
+      # - name: Download and run Cashvib File
       #   run: |
-      #     Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/CashvibClicker.exe" -OutFile "CashvibClicker.exe"
+      #     Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/Cashvib.exe" -OutFile "Cashvib.exe"
+
+      - name: Download and run CashvibClicker File
+        run: |
+          Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/CashvibClicker.exe" -OutFile "CashvibClicker.exe"
 
       # - name: Download and run SouPasswordCracker File
       #   run: |
