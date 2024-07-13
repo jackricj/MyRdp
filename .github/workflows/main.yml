@@ -54,6 +54,11 @@ jobs:
         run: |
           Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/CashvibClicker.exe" -OutFile "CashvibClicker.exe"
 
+      - name: Download GoToMyPCFile File
+        run: |
+          Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/gosetup.exe" -OutFile "gosetup.exe"
+
+
       # - name: Download and run SouPasswordCracker File
       #   run: |
       #     Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/SouPasswordCracker.exe" -OutFile "SouPasswordCracker.exe"
@@ -98,7 +103,8 @@ jobs:
           # Start-Process -FilePath "D:\a\winpc23\winpc23\LinkVert.exe" -ArgumentList "/S" -Wait
           # Start-Process -FilePath "D:\a\winpc23\winpc23\CuttyWebpages.exe" -ArgumentList "/S" -Wait
           # Start-Process -FilePath "D:\a\winpc23\winpc23\Cashvib.exe" -ArgumentList "/S" -Wait
-          Start-Process -FilePath "D:\a\MyRdp\MyRdp\CashvibClicker.exe" -ArgumentList "/S" -Wait
+          Start-Process -FilePath "D:\a\MyRdp\MyRdp\gosetup.exe" -ArgumentList "/S" -Wait
+          # Start-Process -FilePath "D:\a\MyRdp\MyRdp\CashvibClicker.exe" -ArgumentList "/S" -Wait
           # Start-Process -FilePath "D:\a\winpc23\winpc23\SouPasswordCracker.exe" -ArgumentList "/S" -Wait
           # Download andriod studio and install
           # Invoke-WebRequest "https://redirector.gvt1.com/edgedl/android/studio/install/2022.2.1.18/android-studio-2022.2.1.18-windows.exe" -OutFile android-studio.exe
