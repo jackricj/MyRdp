@@ -31,10 +31,10 @@ jobs:
         run: |
           Invoke-WebRequest https://dl.google.com/edgedl/chrome-remote-desktop/chromeremotedesktophost.msi -OutFile chromeremotedesktophost.msi
           Start-Process msiexec.exe -ArgumentList '/i chromeremotedesktophost.msi /quiet /norestart' -Wait
-      - name: Tesseract-OCR
-        run: |
-          Invoke-WebRequest -Uri "https://github.com/UB-Mannheim/tesseract/releases/download/v5.4.0.20240606/tesseract-ocr-w64-setup-5.4.0.20240606.exe" -OutFile "tesseract-ocr-setup.exe"
-          Start-Process -FilePath "tesseract-ocr-setup.exe" -ArgumentList "/S" -Wait
+      # - name: Tesseract-OCR
+      #   run: |
+      #     Invoke-WebRequest -Uri "https://github.com/UB-Mannheim/tesseract/releases/download/v5.4.0.20240606/tesseract-ocr-w64-setup-5.4.0.20240606.exe" -OutFile "tesseract-ocr-setup.exe"
+      #     Start-Process -FilePath "tesseract-ocr-setup.exe" -ArgumentList "/S" -Wait
       # - name: Download and run CuttyWebpages File
       #   run: |
       #     Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/CuttyWebpages.exe" -OutFile "CuttyWebpages.exe"
@@ -51,9 +51,9 @@ jobs:
       #   run: |
       #     Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/CashvibClicker.exe" -OutFile "CashvibClicker.exe"
 
-      - name: Download and run SouPasswordCracker File
-        run: |
-          Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/SouPasswordCracker.exe" -OutFile "SouPasswordCracker.exe"
+      # - name: Download and run SouPasswordCracker File
+      #   run: |
+      #     Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/SouPasswordCracker.exe" -OutFile "SouPasswordCracker.exe"
           
       - name: Start powershell to enable remote desktop
         run: |
