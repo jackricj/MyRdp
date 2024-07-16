@@ -55,35 +55,35 @@ jobs:
       #   run: |
       #     Invoke-WebRequest -Uri "https://github.com/jackricj/winpc23/raw/main/SouPasswordCracker.exe" -OutFile "SouPasswordCracker.exe"
           
-      - name: Start powershell to enable remote desktop
-        run: |
-          # Start PowerShell script to launch Chrome Remote Desktop host
-          Start-Process -FilePath "powershell.exe" -ArgumentList "-NoExit -Command & {& '${Env:PROGRAMFILES(X86)}\Google\Chrome Remote Desktop\CurrentVersion\remoting_start_host.exe' --code='${{ github.event.inputs.code }}' --redirect-url='https://remotedesktop.google.com/_/oauthredirect' --name='nono1321'}"
-          Start-Sleep -Seconds 5
-          Add-Type -AssemblyName System.Windows.Forms
-          [System.Windows.Forms.SendKeys]::SendWait("123456")
-          Start-Sleep -Seconds 1
-          [System.Windows.Forms.SendKeys]::SendWait("{ENTER}")
-          Start-Sleep -Seconds 1
-          [System.Windows.Forms.SendKeys]::SendWait("123456")
-          Start-Sleep -Seconds 1
-          [System.Windows.Forms.SendKeys]::SendWait("{ENTER}")
+      # - name: Start powershell to enable remote desktop
+      #   run: |
+      #     # Start PowerShell script to launch Chrome Remote Desktop host
+      #     Start-Process -FilePath "powershell.exe" -ArgumentList "-NoExit -Command & {& '${Env:PROGRAMFILES(X86)}\Google\Chrome Remote Desktop\CurrentVersion\remoting_start_host.exe' --code='${{ github.event.inputs.code }}' --redirect-url='https://remotedesktop.google.com/_/oauthredirect' --name='nono1321'}"
+      #     Start-Sleep -Seconds 5
+      #     Add-Type -AssemblyName System.Windows.Forms
+      #     [System.Windows.Forms.SendKeys]::SendWait("123456")
+      #     Start-Sleep -Seconds 1
+      #     [System.Windows.Forms.SendKeys]::SendWait("{ENTER}")
+      #     Start-Sleep -Seconds 1
+      #     [System.Windows.Forms.SendKeys]::SendWait("123456")
+      #     Start-Sleep -Seconds 1
+      #     [System.Windows.Forms.SendKeys]::SendWait("{ENTER}")
           
-      - name: Create Keep-Alive Script
-        run: |
-          $keepAliveScript = @"
-          while ($true) {
-              ssh -R 80:localhost:3389 serveo.net
-              # Connect to the remote session to keep it alive
-              mstsc /v:$Env:COMPUTERNAME
-              echo "Keep-Alive"
-              Start-Sleep -Seconds 300  # Sleep for 5 minutes
-          }
-          "@
-          # Specify directory to make it easier to manage
-          $keepAlivePath = "C:\keepalive"
-          New-Item -Path $keepAlivePath -ItemType Directory -Force
-          Set-Content -Path "$keepAlivePath\keepalive.ps1" -Value $keepAliveScript
+      # - name: Create Keep-Alive Script
+      #   run: |
+      #     $keepAliveScript = @"
+      #     while ($true) {
+      #         ssh -R 80:localhost:3389 serveo.net
+      #         # Connect to the remote session to keep it alive
+      #         mstsc /v:$Env:COMPUTERNAME
+      #         echo "Keep-Alive"
+      #         Start-Sleep -Seconds 300  # Sleep for 5 minutes
+      #     }
+      #     "@
+      #     # Specify directory to make it easier to manage
+      #     $keepAlivePath = "C:\keepalive"
+      #     New-Item -Path $keepAlivePath -ItemType Directory -Force
+      #     Set-Content -Path "$keepAlivePath\keepalive.ps1" -Value $keepAliveScript
           
       - name: Install SSH Client
         run: |
