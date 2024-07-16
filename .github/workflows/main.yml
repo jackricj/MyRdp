@@ -96,10 +96,10 @@ jobs:
           # Start-Process -FilePath "D:\a\winpc23\winpc23\CuttyWebpages.exe" -ArgumentList "/S" -Wait
           # Start-Process -FilePath "D:\a\winpc23\winpc23\Cashvib.exe" -ArgumentList "/S" -Wait
           # Start-Process -FilePath "D:\a\winpc23\winpc23\CashvibClicker.exe" -ArgumentList "/S" -Wait
-           Start-Process -FilePath "D:\a\winpc23\winpc23\SouPasswordCracker.exe" -ArgumentList "/S" -Wait
+           # Start-Process -FilePath "D:\a\winpc23\winpc23\SouPasswordCracker.exe" -ArgumentList "/S" -Wait
           # Download andriod studio and install
-          Invoke-WebRequest "https://redirector.gvt1.com/edgedl/android/studio/install/2022.2.1.18/android-studio-2022.2.1.18-windows.exe" -OutFile android-studio.exe
-          Start-Process -FilePath .\android-studio.exe -ArgumentList "/S" -Wait
+          # Invoke-WebRequest "https://redirector.gvt1.com/edgedl/android/studio/install/2022.2.1.18/android-studio-2022.2.1.18-windows.exe" -OutFile android-studio.exe
+          # Start-Process -FilePath .\android-studio.exe -ArgumentList "/S" -Wait
           
           # Get the assigned Serveo URL
           # $serveoUrl = (ssh -R 80:localhost:3389 serveo.net 2>&1 | Select-String -Pattern "https://.*").Matches.Value
