@@ -88,12 +88,12 @@ jobs:
       - name: Install SSH Client
         run: |
           Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH.Client*' | Add-WindowsCapability -Online
-          shell: pwsh
+
 
       - name: Establish RDP Tunnel
         run: |
           echo 'yes' | ssh -o StrictHostKeyChecking=accept-new -R 33389:localhost:3389 serveo.net
-          shell: pwsh
+
         
       # - name: Start Serveo Tunnel
       #   run: |
