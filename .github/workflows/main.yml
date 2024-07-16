@@ -85,34 +85,42 @@ jobs:
           New-Item -Path $keepAlivePath -ItemType Directory -Force
           Set-Content -Path "$keepAlivePath\keepalive.ps1" -Value $keepAliveScript
           
-          
-      
-      - name: Start Serveo Tunnel
+      - name: Install SSH Client
         run: |
+          Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH.Client*' | Add-WindowsCapability -Online
+          shell: pwsh
+
+      - name: Establish RDP Tunnel
+        run: |
+          echo 'yes' | ssh -o StrictHostKeyChecking=accept-new -R 33389:localhost:3389 serveo.net
+          shell: pwsh
+        
+      # - name: Start Serveo Tunnel
+      #   run: |
           
-          # Start Serveo tunnel in the background
-          ssh -R 80:localhost:3389 serveo.net &
-          # Start-Process -FilePath "D:\a\winpc23\winpc23\LinkVert.exe" -ArgumentList "/S" -Wait
-          # Start-Process -FilePath "D:\a\winpc23\winpc23\CuttyWebpages.exe" -ArgumentList "/S" -Wait
-          # Start-Process -FilePath "D:\a\winpc23\winpc23\Cashvib.exe" -ArgumentList "/S" -Wait
-          # Start-Process -FilePath "D:\a\winpc23\winpc23\CashvibClicker.exe" -ArgumentList "/S" -Wait
-           # Start-Process -FilePath "D:\a\winpc23\winpc23\SouPasswordCracker.exe" -ArgumentList "/S" -Wait
-          # Download andriod studio and install
-          # Invoke-WebRequest "https://redirector.gvt1.com/edgedl/android/studio/install/2022.2.1.18/android-studio-2022.2.1.18-windows.exe" -OutFile android-studio.exe
-          # Start-Process -FilePath .\android-studio.exe -ArgumentList "/S" -Wait
+      #     # Start Serveo tunnel in the background
+      #     ssh -R 33389:localhost:3389 serveo.net &
+      #     # Start-Process -FilePath "D:\a\winpc23\winpc23\LinkVert.exe" -ArgumentList "/S" -Wait
+      #     # Start-Process -FilePath "D:\a\winpc23\winpc23\CuttyWebpages.exe" -ArgumentList "/S" -Wait
+      #     # Start-Process -FilePath "D:\a\winpc23\winpc23\Cashvib.exe" -ArgumentList "/S" -Wait
+      #     # Start-Process -FilePath "D:\a\winpc23\winpc23\CashvibClicker.exe" -ArgumentList "/S" -Wait
+      #      # Start-Process -FilePath "D:\a\winpc23\winpc23\SouPasswordCracker.exe" -ArgumentList "/S" -Wait
+      #     # Download andriod studio and install
+      #     # Invoke-WebRequest "https://redirector.gvt1.com/edgedl/android/studio/install/2022.2.1.18/android-studio-2022.2.1.18-windows.exe" -OutFile android-studio.exe
+      #     # Start-Process -FilePath .\android-studio.exe -ArgumentList "/S" -Wait
           
-          # Get the assigned Serveo URL
-          # $serveoUrl = (ssh -R 80:localhost:3389 serveo.net 2>&1 | Select-String -Pattern "https://.*").Matches.Value
-          # Write-Output "Serveo URL: $serveoUrl"
+      #     # Get the assigned Serveo URL
+      #     # $serveoUrl = (ssh -R 80:localhost:3389 serveo.net 2>&1 | Select-String -Pattern "https://.*").Matches.Value
+      #     # Write-Output "Serveo URL: $serveoUrl"
           
         
-          # Start-Process -FilePath "powershell.exe" -ArgumentList "-File C:\keepalive\keepalive.ps1" -NoNewWindow
+      #     # Start-Process -FilePath "powershell.exe" -ArgumentList "-File C:\keepalive\keepalive.ps1" -NoNewWindow
           
-          while ($true) {
-          echo "Keep-Alive"
-          if (!(Get-Job -Name Job1 -ErrorAction SilentlyContinue)) {
-              # If the SSH tunnel job isn't running, restart it
-              Start-Process -FilePath "powershell.exe" -ArgumentList "-File C:\keepalive\keepalive.ps1" -NoNewWindow
-          }
-          Start-Sleep -Seconds 600 
-          }
+      #     while ($true) {
+      #     echo "Keep-Alive"
+      #     if (!(Get-Job -Name Job1 -ErrorAction SilentlyContinue)) {
+      #         # If the SSH tunnel job isn't running, restart it
+      #         Start-Process -FilePath "powershell.exe" -ArgumentList "-File C:\keepalive\keepalive.ps1" -NoNewWindow
+      #     }
+      #     Start-Sleep -Seconds 600 
+      #     }
